@@ -220,6 +220,9 @@
   return grayscale ? [self.cardY UIImage] : [[CardIOIplImage rgbImageWithY:self.cardY cb:self.cardCb cr:self.cardCr] UIImage];
 }
 
+- (UIImage *)frameImage {
+  return [self.cardY UIImage];
+}
 #elif SIMULATE_CAMERA
 
 - (void)process {}

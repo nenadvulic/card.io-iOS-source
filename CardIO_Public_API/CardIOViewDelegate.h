@@ -21,5 +21,7 @@
 /// @note cardInfo will be nil if exiting due to a problem (e.g., no available camera).
 - (void)cardIOView:(CardIOView *)cardIOView didScanCard:(CardIOCreditCardInfo *)cardInfo;
 
+@optional
+- (void)cardIOView:(CardIOView *)cardIOView didCardDetected:(UIImage *)cardImage;
 @end
 

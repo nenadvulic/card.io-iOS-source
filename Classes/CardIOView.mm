@@ -48,6 +48,7 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
 
 @property(nonatomic, assign, readwrite) BOOL scanHasBeenStarted;
 
+@property(nonatomic, assign, readwrite) BOOL cardImageSampleSent;
 @end
 
 
@@ -82,6 +83,7 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
 
   _config = [[CardIOConfig alloc] init];
   _config.scannedImageDuration = 1.0;
+  _cardImageSampleSent = NO;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -219,6 +221,10 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
 
 - (void)didDetectCard:(CardIOVideoFrame *)processedFrame {
   if(processedFrame.foundAllEdges && processedFrame.focusOk) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardIOView:didCardDetected:)] && !self.cardImageSampleSent) {
+      self.cardImageSampleSent = YES;
+      [self.delegate cardIOView:self didCardDetected:[processedFrame frameImage]];
+    }
     if(self.detectionMode == CardIODetectionModeCardImageOnly) {
       [self stopSession];
       [self vibrate];

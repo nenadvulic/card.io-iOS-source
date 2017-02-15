@@ -479,6 +479,9 @@
 
 
 #pragma mark - CardIOViewDelegate method
+- (void)cardIOView:(CardIOView *)cardIOView didCardDetected:(UIImage *)cardImage {
+  
+}
 
 - (void)cardIOView:(CardIOView *)cardIOView didScanCard:(CardIOCreditCardInfo *)cardInfo {
   self.context.detectionMode = cardIOView.detectionMode;  // may have changed from Auto to CardImageOnly

@@ -442,6 +442,9 @@
 }
 
 #pragma mark CardIOViewDelegate method
+- (void)cardIOView:(CardIOView *)cardIOView didCardDetected:(UIImage *)cardImage {
+
+}
 
 - (void)cardIOView:(CardIOView *)cardIOView didScanCard:(CardIOCreditCardInfo *)cardInfo {
   CardIOLog(@"Received cardIOView:didScanCard:");

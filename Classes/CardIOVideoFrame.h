@@ -30,6 +30,7 @@ typedef enum {
 - (uint)numEdgesFound;
 - (NSData *)encodedImageUsingEncoding:(FrameEncoding)encoding;
 - (UIImage *)imageWithGrayscale:(BOOL)grayscale;
+- (UIImage *)frameImage;
 + (NSString *)filenameForImageEncodedUsingEncoding:(FrameEncoding)encoding;
 
 @property(nonatomic, assign, readwrite) float focusScore;
