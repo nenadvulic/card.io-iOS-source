@@ -47,11 +47,11 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
 @property(nonatomic, strong, readwrite) CardIOTransitionView *transitionView;
 
 @property(nonatomic, assign, readwrite) BOOL scanHasBeenStarted;
-
+@property(nonatomic, assign) NSInteger numberOfsampleCollected;
 @property(nonatomic, assign, readwrite) BOOL cardImageSampleSent;
 @end
 
-
+static NSInteger kNumberOfSampleToCollect = 5;
 @implementation CardIOView
 
 #pragma mark - Initialization and layout
@@ -84,6 +84,7 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
   _config = [[CardIOConfig alloc] init];
   _config.scannedImageDuration = 1.0;
   _cardImageSampleSent = NO;
+  _numberOfsampleCollected = 0;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
@@ -221,8 +222,9 @@ NSString * const CardIOScanningOrientationAnimationDuration = @"CardIOScanningOr
 
 - (void)didDetectCard:(CardIOVideoFrame *)processedFrame {
   if(processedFrame.foundAllEdges && processedFrame.focusOk) {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cardIOView:didCardDetected:)] && !self.cardImageSampleSent) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cardIOView:didCardDetected:)] && self.numberOfsampleCollected <= kNumberOfSampleToCollect) {
       self.cardImageSampleSent = YES;
+      self.numberOfsampleCollected++;
       [self.delegate cardIOView:self didCardDetected:[processedFrame frameImage]];
     }
     if(self.detectionMode == CardIODetectionModeCardImageOnly) {
